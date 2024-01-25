@@ -21,4 +21,5 @@ avg_even = sum(even_numbers) / len(even_numbers)
 avg_odd = sum(odd_numbers) / len(odd_numbers)
 
 # print both average result in console 
+
 print(f'average of even numbers is {avg_even}\naverage of odd numbers is {avg_odd}')
