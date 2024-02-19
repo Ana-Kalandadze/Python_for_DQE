@@ -9,6 +9,7 @@
 # 3.Your unique one with unique publish rules.
 
 from datetime import date, datetime
+from task_6 import ExportToFile
 
 class journal:
     def __init__(self, news_type):
@@ -19,10 +20,10 @@ class journal:
         self.text = input(f"Enter {self.news_type} text please ")
 
     def display_news(self):
-        print(self.text)
+        return(self.text)
 
     def display_type(self):
-        print(self.news_type, '-----------')
+        return(self.news_type)
 
 class news(journal):
     def __init__(self):
@@ -36,7 +37,7 @@ class news(journal):
 
     def display_news(self):
         super().display_news()
-        print(self.city,',',self.date)
+        return(self.city,',',self.date)
 
 
 class privatead(journal):
@@ -49,7 +50,7 @@ class privatead(journal):
 
     def display_news(self):
         super().display_news()
-        print(f"{(self.date - date.today()).days} days left")
+        return(f"{(self.date - date.today()).days} days left")
 
 class weather(journal):
     def __init__(self):
@@ -64,37 +65,48 @@ class weather(journal):
             self.comment = "It is warm outside" 
 
     def display_news(self):
-        print(f"it is {self.temp}\n",self.comment)
+        return(f"it is {self.temp}\n",self.comment)
 
 
-def main():
-    choice = input("What kind of news do you want to get? ")
+def output_news():
+    results = ''
+    while True: 
+        choice = input("What kind of news do you want to get? ")
 
-    if choice == "News":
-        news_journal = news()
-        news_journal.get_text()
-        news_journal.display_type()
-        news_journal.display_news()
+        if choice == "News":
+            news_journal = news()
+            news_journal.get_text()
+            results += (news_journal.display_type()) + '----------' + '\n'
+            results += ' '.join(map(str, news_journal.display_news())) + '\n'
+
+        elif choice == "Private ad":
+            privatead_journal = privatead()
+            privatead_journal.get_text()
+            results += ' '.join(privatead_journal.display_type() ()) + '\n'
+            results += ' '.join(privatead_journal.display_news() ()) + '\n'
+
+        elif choice == "Weather":
+            weather_journal = weather()
+            weather_journal.get_text()
+            results += ' '.join(weather_journal.display_type() ()) + '\n'
+            results += ' '.join(weather_journal.display_news() ()) + '\n'
+
+        else:
+            results += "Sorry, we don't have that kind of news" + '\n'
+
+        again = input("Do you want to get another news? (yes/no): ")
         
+        if again.lower() != 'yes':
+            break
 
-    elif choice == "Private ad":
-        privatead_journal = privatead()
-        privatead_journal.get_text()
-        privatead_journal.display_type()
-        privatead_journal.display_news()
-
-    elif choice == "Weather":
-        weather_journal = weather()
-        weather_journal.get_text()
-        weather_journal.display_type()
-        weather_journal.display_news()
-
-    else:
-        print("Sorry, we don't have that kind of news")
+    file = ExportToFile().to_txt(results)
+    ExportToFile().remove_file(file)
+    # Print the results at the end
+    print(results)
 
 
 
 if __name__ == "__main__":
-    main()
+    output_news()
 
 
