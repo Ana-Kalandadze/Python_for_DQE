@@ -10,6 +10,9 @@
 
 from datetime import date, datetime
 from task_6 import ExportToFile
+from task_7 import WordCounter, LetterCounter
+from task_8 import ExportToJsonFile
+from task_9 import create_xml
 
 class journal:
     def __init__(self, news_type):
@@ -100,7 +103,17 @@ def output_news():
             break
 
     file = ExportToFile().to_txt(results)
-    ExportToFile().remove_file(file)
+    json_file = ExportToJsonFile().to_json(results)
+    counter = WordCounter('news.txt')
+    counts = counter.compute_counts()
+    counter.write_to_csv(counts)
+    letter_counter = LetterCounter('news.txt')
+
+
+    letter_counter = LetterCounter('news.txt')
+    all_counts, uppercase_counts = letter_counter.compute_counts()
+    letter_counter.write_to_csv(all_counts, uppercase_counts)
+    create_xml(results)
     # Print the results at the end
     print(results)
 
